@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Fruit Cash</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- PANTALLA DE INICIO -->
+    <section id="home-screen" class="screen active">
+        <div class="header-panel">
+            <div class="score-box" id="demo-wallet-container" style="margin-right: 10px;">
+                <span class="label">DEMO</span>
+                <span id="demo-wallet">0</span>
+            </div>
+            <div class="score-box">
+                <span class="label">SALDO</span>
+                <span id="global-wallet">0</span>
+            </div>
+            <button class="btn-secondary" id="withdraw-btn">RETIRAR</button>
+            <button class="btn-promo-link hidden" id="promo-btn-main"
+                style="text-decoration: underline; margin-left: 10px;">PROMO</button>
+        </div>
+
+        <div class="hero">
+            <h1 class="title">Fruit Cash</h1>
+            <div class="fruit-deco">
+                <span class="fruit">🍓</span>
+                <span class="fruit">🍊</span>
+                <span class="fruit">🍇</span>
+            </div>
+        </div>
+
+        <button id="play-btn" class="btn-primary pulse">JUGAR</button>
+
+        <div id="referral-section" class="referral-container hidden">
+            <label>Link de invitación</label>
+            <div class="input-group">
+                <input type="text" id="my-referral-input" readonly value="LOADING...">
+                <button id="copy-ref-btn" class="btn-copy-green">COPIAR</button>
+            </div>
+            <p><small style="color: white;text-shadow: 1px 1px 2px black;">Gana +15s por cada invitado aprobado.</small>
+            </p>
+        </div>
+
+        <footer class="admin-footer">
+            <a href="#" id="admin-link">Admin</a>
+        </footer>
+    </section>
+
+    <!-- PANTALLA DE SELECCIÓN DE NIVEL -->
+    <section id="level-select-screen" class="screen">
+        <div class="header-panel">
+            <button class="btn-secondary small" id="back-home-btn">← INICIO</button>
+            <div class="score-box">
+                <span class="label">SALDO</span>
+                <span id="level-wallet">0</span>
+            </div>
+        </div>
+        <h2 class="section-title">SELECCIONA NIVEL</h2>
+
+        <!-- Contenedor Grid de Niveles -->
+        <div class="levels-grid" id="levels-container">
+            <!-- Cards generadas por JS -->
+        </div>
+
+        <!-- Botón Simulado de Recarga -->
+
+    </section>
+
+    <!-- PANTALLA DE PAGO / REGISTRO (REDISENADA) -->
+    <section id="payment-screen" class="screen">
+        <div class="header-panel">
+            <button class="btn-secondary small" id="back-levels-btn">← NIVELES</button>
+            <h2 class="form-title"
+                style="color: white; font-family: var(--font-heading); margin: 0; font-size: 1.2rem;">REGISTRO</h2>
+        </div>
+
+        <div class="payment-card glass-panel">
+
+
+            <div class="form-group">
+                <label>NICKNAME</label>
+                <input type="text" id="reg-nickname" placeholder="Tu nombre de jugador" class="input-light">
+            </div>
+
+            <div class="form-group">
+                <label>CORREO</label>
+                <input type="email" id="reg-email" placeholder="ejemplo@email.com" class="input-light">
+            </div>
+
+            <div class="terms-row">
+                <a href="https://drive.google.com/file/d/1cpKsNDaIQAgdEouo6KG86Na6cJe8pKR2/view?usp=drive_link"
+                    target="_blank" class="terms-link">Terminos y Condiciones</a>
+                <label class="terms-label">
+                    Acepto <input type="checkbox" id="terms-checkbox">
+                </label>
+            </div>
+
+            <!-- Referrer hidden input (Auto-filled) -->
+            <input type="hidden" id="reg-referrer">
+
+            <div class="divider"></div>
+
+            <p class="section-label" style="color: #ff4757; font-weight: bold; margin-bottom: 5px;">NIVEL A HABILITAR
+            </p>
+
+            <div class="level-info-row">
+                <span id="payment-level-name"
+                    style="font-weight: bold; font-family: var(--font-heading); color: #2f3542;">LOADING...</span>
+                <span id="payment-level-fee" style="font-weight: bold; color: #2f3542;">LOADING...</span>
+            </div>
+
+            <!-- Hidden Input for Logic -->
+            <input type="hidden" id="selected-level-id">
+
+            <div class="divider"></div>
+
+            <div class="payment-info-container">
+                <p class="highlight" style="color: #00a8ff; font-size: 0.9rem; margin-bottom: 10px;">Depositar
+                    (USDT/Token) a:</p>
+
+                <div class="qr-container">
+                    <!-- Placeholder QR - Replace with actual image if available, or generate -->
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=0x7234Ab1EA761229c84529cdEF7a242c19C0dF876"
+                        alt="QR Code" style="width: 120px; height: 120px;">
+                </div>
+
+                <div class="wallet-row-redesign">
+                    <input type="text" class="wallet-address-input" id="wallet-text-input" readonly
+                        value="0x7234Ab1EA761229c84529cdEF7a242c19C0dF876">
+                    <button id="copy-btn" class="btn-copy-icon">📋</button>
+                </div>
+
+                <div class="warning-badge">
+                    <span>⚠️ SOLO RED ETHEREUM (ERC20)</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>HASH (TxID) DE TRANSACCION</label>
+                <input type="text" id="reg-hash" placeholder="Pega aquí el ID del pago" class="input-light">
+            </div>
+
+            <div class="form-group">
+                <label>AQUI TU WALLET USDT (ERC20)</label>
+                <input type="text" id="reg-user-wallet" placeholder="Pega tu dirección de wallet" class="input-light">
+            </div>
+
+            <button id="submit-payment-btn" class="btn-primary full-btn shadow-pulse" style="margin-top: 15px;">ENVIAR
+                SOLICITUD</button>
+        </div>
+    </section>
+
+    <!-- PANTALLA DE JUEGO -->
+    <section id="game-screen" class="screen">
+        <div class="game-header-pill">
+            <div class="stat-col">
+                <span class="stat-label">NIVEL</span>
+                <span id="current-level-name" class="stat-value">SILVER</span>
+            </div>
+            <div class="stat-col">
+                <span class="stat-label">RONDA</span>
+                <span id="level-display" class="stat-value">1/3</span>
+            </div>
+            <div class="stat-col">
+                <span class="stat-label">META</span>
+                <span id="target-display" class="stat-value">0/0</span>
+                <!-- Changed ID to target-display for clearer logic -->
+            </div>
+            <div class="stat-col highlight-bg">
+                <span class="stat-label">SALDO</span>
+                <span id="ingame-wallet" class="stat-value">0</span>
+            </div>
+            <div class="stat-col">
+                <span class="stat-label">TIEMPO</span>
+                <span id="time-display" class="stat-value">0</span>
+            </div>
+        </div>
+
+        <div class="grid-container">
+            <div id="grid">
+                <!-- Tablero JS -->
+            </div>
+        </div>
+
+        <div class="controls-panel">
+            <button id="give-up-btn" class="btn-quit-red">RENDIRSE</button>
+        </div>
+    </section>
+
+    <!-- MODAL COMPRAR TIEMPO -->
+    <div id="buy-time-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>¡TIEMPO AGOTADO!</h2>
+            <p>¿Quieres comprar tiempo extra para salvar la ronda?</p>
+
+            <div class="buy-options">
+                <button class="btn-buy" id="buy-15s-btn">
+                    15s <br> <small id="cost-15s">(1 Ficha)</small>
+                </button>
+                <button class="btn-buy" id="buy-30s-btn">
+                    30s <br> <small id="cost-30s">(3 Fichas)</small>
+                </button>
+                <button class="btn-buy" id="buy-60s-btn">
+                    1m <br> <small id="cost-60s">(6 Fichas)</small>
+                </button>
+            </div>
+
+            <button id="cancel-buy-btn" class="btn-secondary margin-top">No, Terminar Juego</button>
+        </div>
+    </div>
+
+    <!-- MODAL RONDA COMPLETADA -->
+    <div id="round-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>¡RONDA SUPERADA!</h2>
+            <p>Has ganado:</p>
+            <div class="reward">
+                <span>🪙</span>
+                <h3 id="round-reward">10 Fichas</h3>
+            </div>
+            <button id="next-round-btn" class="btn-primary">SIGUIENTE RONDA</button>
+        </div>
+    </div>
+
+    <!-- MODAL DE VICTORIA NIVEL -->
+    <div id="modal" class="modal hidden">
+        <div class="modal-content">
+            <h2 id="modal-title">¡NIVEL COMPLETADO!</h2>
+            <p id="modal-msg">Felicitaciones</p>
+            <div class="reward">
+                <span>🏆</span>
+                <h3 id="final-score">Total Ganado: 70</h3>
+            </div>
+
+            <div id="airdrop-form" class="hidden">
+                <p class="info-text">Registra tu Wallet para recibir el futuro <strong>Token Fruit Cash</strong>.</p>
+                <button id="register-btn" class="btn-primary small-btn">REGISTRAR WALLET</button>
+            </div>
+
+            <div id="win-actions" class="actions-container">
+                <!-- Dynamically populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL RETIRAR USDT (Redesigned) -->
+    <div id="withdraw-modal" class="modal hidden">
+        <div class="modal-content">
+            <button class="close-btn" id="close-withdraw-modal">✕</button>
+
+            <!-- <div class="modal-header-icon">🔄</div> Removed Icon circle -->
+            <h2 style="margin-top: 10px;">Retirar USDT</h2>
+            <p class="modal-subtitle">Transfiere tus ganancias a tu wallet</p>
+
+            <!-- Wallet Section -->
+            <div class="input-group-redesign">
+                <label>Dirección Wallet</label>
+                <div class="input-container-glass">
+                    <span class="input-icon-left">👛</span>
+                    <input type="text" id="with-wallet" readonly placeholder="Wallet no registrada">
+                    <span class="input-icon-right" id="copy-wallet-btn">📋</span>
+                </div>
+            </div>
+
+            <!-- Network Section -->
+            <div class="input-group-redesign">
+                <label>Red</label>
+                <div class="input-container-glass">
+                    <span class="input-icon-left">🔗</span>
+                    <div class="network-badge">
+                        Ethereum (ERC20)
+                        <span style="font-size: 1.2rem; color: #9b59b6; margin-left: auto;">✔</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Amount Section -->
+            <div class="input-group-redesign">
+                <div class="label-row"
+                    style="display: flex; justify-content: space-between; color: white; margin-bottom: 5px; font-weight: bold;">
+                    <span>Monto</span>
+                    <span id="label-available" class="available-text hidden"
+                        style="font-weight: normal; font-size: 0.9rem;">Disponible: <span id="with-balance">0.00
+                            USDT</span></span>
+                </div>
+                <div class="input-container-glass">
+                    <span class="input-icon-left">$</span>
+                    <input type="number" id="with-amount" placeholder="0.00" inputmode="decimal">
+                </div>
+            </div>
+
+            <!-- Warning -->
+            <div class="warning-box-redesign">
+                <span style="font-size: 1.2rem;">⚠️</span>
+                <span>El retiro puede tardar hasta 24 horas en procesarse. Verifica bien tu dirección wallet, esta
+                    acción no se puede deshacer.</span>
+            </div>
+
+            <!-- Actions -->
+            <div class="modal-actions-row">
+                <button id="submit-withdraw-btn" class="btn-withdraw-action" disabled>
+                    RETIRAR
+                </button>
+                <button id="cancel-withdraw-btn" class="btn-cancel-red">
+                    CANCELAR
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL PROMOCIÓN (TIKTOK) - MISSING ELEMENT RESTORED -->
+    <div id="promo-modal" class="modal hidden" style="background: rgba(0,0,0,0.9);">
+        <div class="modal-content promo-content" spellcheck="false">
+            <h2 style="color: white; text-shadow: 0 2px 0 #005fcc;">¡PARTICIPA Y GANA!</h2>
+            <p class="promo-reward">🏆 $10,000 USD 🏆</p>
+
+            <div class="promo-rules">
+                <p><strong>1. Crea un video divertido jugando Fruit Cash</strong></p>
+                <p>(usa el #FruitCash)</p>
+                <p><strong>2. Pega el enlace aquí abajo.</strong></p>
+                <p>El video con más vistas ganará el gran premio.</p>
+                <p>¡Mucha suerte!</p>
+            </div>
+
+            <p class="promo-subtitle">Tu Enlace de TikTok:</p>
+            <input type="text" id="promo-link" class="promo-input"
+                placeholder="https://www.tiktok.com/@usuario/video/...">
+
+            <button id="submit-promo-btn" class="btn-promo pulse">ENVIAR PARTICIPACIÓN</button>
+
+            <button onclick="document.getElementById('promo-modal').classList.add('hidden')"
+                class="btn-promo-close">CERRAR / MÁS TARDE</button>
+        </div>
+    </div>
+
+    <!-- PANTALLAS DE ADMIN (Integradas) -->
+
+    <!-- LOGIN SCREEN -->
+    <!-- LOGIN MODAL -->
+    <div id="login-screen" class="modal hidden" style="z-index: 2000;">
+        <div class="modal-content">
+            <h1 class="title" style="color: #333; margin-bottom: 20px;">Admin Login 🔒</h1>
+            <div class="login-box">
+                <input type="password" id="admin-pass" placeholder="Contraseña" class="admin-input"
+                    style="background: #f1f2f6; color: #333;">
+                <button id="login-btn" class="btn-primary" style="margin-top: 10px;">ENTRAR</button>
+                <p id="login-error" class="error-msg hidden">Contraseña incorrecta</p>
+            </div>
+            <button id="back-to-home-btn" class="btn-secondary small margin-top"
+                style="background: #ff4757; margin-top: 15px;">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- DASHBOARD SCREEN -->
+    <div id="dashboard-screen" class="screen admin-screen">
+        <div class="header-panel">
+            <h2>Panel de Administrador 👨‍💻</h2>
+            <button id="logout-btn" class="btn-secondary small">Salir</button>
+        </div>
+
+        <div class="admin-tabs">
+            <button class="tab-btn active" data-tab="access">1. Control de Acceso (Ingresos)</button>
+            <button class="tab-btn" data-tab="payments">2. Pagos y Retiros (Egresos)</button>
+            <button class="tab-btn" data-tab="users">3. Base de Datos</button>
+        </div>
+
+        <!-- TAB 1: ACCESO (Image 1) -->
+        <div id="tab-access" class="tab-content active">
+            <div class="table-container full-width">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <h3>Plantilla de Ingreso</h3>
+                    <button id="reset-data-btn" class="btn-quit-red"
+                        style="font-size: 0.8rem; padding: 5px 15px;">BORRAR DATOS</button>
+                </div>
+                <table id="access-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>USUARIO</th>
+                            <th>WALLET (Admin)</th>
+                            <th>HASH (User)</th>
+                            <th>FECHA</th>
+                            <th>ENTRADA</th>
+                            <th>NIVEL</th>
+                            <th>ON / OFF</th>
+                        </tr>
+                    </thead>
+                    <tbody id="access-body">
+                        <!-- JS Generated -->
+                    </tbody>
+                </table>
+                <div id="no-data-access" class="hidden">No hay registros.</div>
+            </div>
+        </div>
+
+        <!-- TAB 2: PAGOS (Image 2) -->
+        <div id="tab-payments" class="tab-content">
+            <div class="table-container full-width">
+                <h3>Plantilla de Egreso / Pagos</h3>
+                <table id="payments-table">
+                    <thead>
+                        <tr>
+                            <th>USUARIO</th>
+                            <th>WALLET</th>
+                            <th>SALDO</th>
+                            <th>SALDO A RETIRAR</th>
+                            <th>DISPONIBLE</th>
+                            <th>HASH Adm.</th>
+                            <th>FECHA</th>
+                            <th>REALIZADO POR</th>
+                        </tr>
+                    </thead>
+                    <tbody id="payments-body">
+                        <!-- JS Generated -->
+                    </tbody>
+                </table>
+                <div id="no-data-payments" class="hidden">No hay registros.</div>
+            </div>
+        </div> <!-- Close tab-payments here -->
+
+        <!-- TAB 3: USERS DATABASE (New) -->
+        <div id="tab-users" class="tab-content">
+            <div class="table-container full-width">
+                <h3>Base de Datos de Usuarios</h3>
+                <table id="users-table">
+                    <thead>
+                        <tr>
+                            <th>FECHA</th>
+                            <th>USUARIO</th>
+                            <th>CORREO</th>
+                            <th>WALLET</th>
+                            <th>LINK DE INVITACIÓN</th>
+                            <th>TIKTOK</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-body">
+                        <!-- JS fills this -->
+                    </tbody>
+                </table>
+                <div id="no-data-users" class="no-data hidden">No hay usuarios registrados.</div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+
+</html>
